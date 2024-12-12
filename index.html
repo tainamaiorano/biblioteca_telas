@@ -8,19 +8,102 @@
     <link href="./css/main.css" rel="stylesheet" />
     <title>Biblioteca</title>
 </head>
+<style>
+/* Estilização exclusiva para o catálogo */
+.book-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.book-item {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    transition: transform 0.3s;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.book-details {
+    flex: 2;
+    text-align: left;
+    font-family: 'Amiko', sans-serif;
+}
+
+.book-image {
+    flex: 1;
+    text-align: center;
+}
+
+.book-image img {
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+.book-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.book-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.reserve-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 2;
+}
+
+.reserve-button:hover {
+    background-color: darkred;
+}
+
+/* O hover aplica blur apenas no conteúdo visível */
+.book-item:hover .book-details,
+.book-item:hover .book-image {
+    filter: blur(3px);
+}
+
+.book-item:hover .book-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+</style>
+
 <body>
     <div class="container">
         <!-- Cabeçalho do site -->
         <header class="header">
-            <!-- Logo da biblioteca -->
             <div class="logo">
                 <img src="../images/v15_137.png" alt="Logo da Biblioteca" class="logo-image">
             </div>
-            <!-- Título da biblioteca -->
             <div class="title">
                 <h1>BIBLIOTECA</h1>
             </div>
-            <!-- Barra de pesquisa -->
             <div class="search">
                 <input type="text" placeholder="Buscar">
                 <img src="../images/v15_141.png" alt="Ícone de Busca">
@@ -40,24 +123,34 @@
         <!-- Grid de livros -->
         <main class="book-grid">
             <div class="book-item">
-                <img src="../images/v15_154.png" alt="Capa do Livro 'Princípios Milenares'">
-                <p class="book-title">Princípios Milenares</p>
+                <div class="book-details">
+                    <p class="book-title">Princípios Milenares</p>
+                    <p class="book-isbn">ISBN: 978-3-16-148410-0</p>
+                    <p class="book-description">Uma introdução aos princípios da humanidade.</p>
+                    <p class="book-year">Ano: 2020</p>
+                    <p class="book-author">Autor: João Silva</p>
+                </div>
+                <div class="book-image">
+                    <img src="../images/v15_154.png" alt="Capa do Livro 'Princípios Milenares'">
+                </div>
+                <div class="book-overlay">
+                    <button class="reserve-button">Reservar</button>
+                </div>
             </div>
             <div class="book-item">
-                <img src="../images/v15_155.png" alt="Capa do Livro 'A Biblioteca da Meia-noite'">
-                <p class="book-title">A Biblioteca da Meia-noite</p>
-            </div>
-            <div class="book-item">
-                <img src="../images/v15_156.png" alt="Capa do Livro 'O Homem Mais Rico da Babilônia'">
-                <p class="book-title">O Homem Mais Rico da Babilônia</p>
-            </div>
-            <div class="book-item">
-                <img src="../images/v15_157.png" alt="Capa do Livro 'Título do Livro 4'">
-                <p class="book-title">Título do Livro 4</p>
-            </div>
-            <div class="book-item">
-                <img src="../images/v15_158.png" alt="Capa do Livro 'Título do Livro 5'">
-                <p class="book-title">Título do Livro 5</p>
+                <div class="book-details">
+                    <p class="book-title">A Biblioteca da Meia-noite</p>
+                    <p class="book-isbn">ISBN: 978-1-23-456789-0</p>
+                    <p class="book-description">Uma jornada entre mundos e escolhas.</p>
+                    <p class="book-year">Ano: 2021</p>
+                    <p class="book-author">Autor: Maria Souza</p>
+                </div>
+                <div class="book-image">
+                    <img src="../images/v15_155.png" alt="Capa do Livro 'A Biblioteca da Meia-noite'">
+                </div>
+                <div class="book-overlay">
+                    <button class="reserve-button">Reservar</button>
+                </div>
             </div>
         </main>
 
