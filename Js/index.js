@@ -17,10 +17,4 @@ searchInput.addEventListener('input', () => {
   });
 });
 
-// Exibir alerta ao clicar em categorias
-categoryLinks.forEach((link) => {
-  link.addEventListener('click', (event) => {
-    event.preventDefault(); // Evita comportamento padrão do link
-    alert('Esta funcionalidade está em construção.');
-  });
-});
+

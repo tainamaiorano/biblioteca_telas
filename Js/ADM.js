@@ -1,37 +1,93 @@
-// Seleciona elementos do DOM
-const menuBtn = document.querySelector('.menu-btn');
-const sidebar = document.querySelector('.sidebar');
-const deleteBtns = document.querySelectorAll('.delete-btn');
-const editBtns = document.querySelectorAll('.edit-btn');
+const bookList = document.getElementById('bookList');
+const popup = document.getElementById('popup');
+const addBookBtn = document.getElementById('addBookBtn');
+const closePopupBtn = document.getElementById('closePopupBtn');
+const saveBookBtn = document.getElementById('saveBookBtn');
+const popupTitle = document.getElementById('popupTitle');
+const bookTitle = document.getElementById('bookTitle');
+const bookAuthor = document.getElementById('bookAuthor');
+const bookISBN = document.getElementById('bookISBN');
+const bookYear = document.getElementById('bookYear');
+const bookImage = document.getElementById('bookImage');
 
-// Função para alternar o menu lateral
-menuBtn.addEventListener('click', () => {
-  if (sidebar.style.left === '0px') {
-    sidebar.style.left = '-250px'; // Esconde o menu
+let books = [];
+let editingIndex = null;
+
+function openPopup(editing = false, index = null) {
+  popup.style.display = 'flex';
+  if (editing) {
+    const book = books[index];
+    popupTitle.textContent = 'Editar Livro';
+    bookTitle.value = book.title;
+    bookAuthor.value = book.author;
+    bookISBN.value = book.isbn;
+    bookYear.value = book.year;
+    bookImage.value = book.image;
+    editingIndex = index;
   } else {
-    sidebar.style.left = '0px'; // Mostra o menu
+    popupTitle.textContent = 'Adicionar Livro';
+    bookTitle.value = '';
+    bookAuthor.value = '';
+    bookISBN.value = '';
+    bookYear.value = '';
+    bookImage.value = '';
+    editingIndex = null;
   }
-});
+}
 
-// Função para excluir um livro
-deleteBtns.forEach((btn) => {
-  btn.addEventListener('click', (event) => {
-    const bookItem = event.target.closest('.book-item');
-    if (confirm('Tem certeza que deseja excluir este livro?')) {
-      bookItem.remove();
-    }
+function closePopup() {
+  popup.style.display = 'none';
+}
+
+function renderBooks() {
+  bookList.innerHTML = '';
+  books.forEach((book, index) => {
+    const bookItem = document.createElement('div');
+    bookItem.className = 'book-item';
+    bookItem.innerHTML = `
+      <img src="${book.image}" alt="${book.title}" />
+      <h3>${book.title}</h3>
+      <p>${book.author}</p>
+      <p>ISBN: ${book.isbn}</p>
+      <p>Ano: ${book.year}</p>
+      <button class="edit-btn" onclick="editBook(${index})">Editar</button>
+      <button class="delete-btn" onclick="deleteBook(${index})">Excluir</button>
+    `;
+    bookList.appendChild(bookItem);
   });
-});
+}
 
-// Função para editar um livro
-editBtns.forEach((btn) => {
-  btn.addEventListener('click', (event) => {
-    const bookItem = event.target.closest('.book-item');
-    const bookTitle = bookItem.querySelector('.book-title').textContent;
+function saveBook() {
+  const book = {
+    title: bookTitle.value,
+    author: bookAuthor.value,
+    isbn: bookISBN.value,
+    year: bookYear.value,
+    image: bookImage.value,
+  };
 
-    const newTitle = prompt('Editar título do livro:', bookTitle);
-    if (newTitle) {
-      bookItem.querySelector('.book-title').textContent = newTitle;
-    }
-  });
-});
+  if (editingIndex !== null) {
+    books[editingIndex] = book;
+  } else {
+    books.push(book);
+  }
+
+  closePopup();
+  renderBooks();
+}
+
+function editBook(index) {
+  openPopup(true, index);
+}
+
+function deleteBook(index) {
+  books.splice(index, 1);
+  renderBooks();
+}
+
+addBookBtn.addEventListener('click', () => openPopup());
+closePopupBtn.addEventListener('click', closePopup);
+saveBookBtn.addEventListener('click', saveBook);
+
+// Initial render
+renderBooks();
